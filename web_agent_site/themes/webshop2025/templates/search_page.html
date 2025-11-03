@@ -313,12 +313,7 @@
         </nav>
     </header>
 
-    <!-- Task Info Bar (subtle) -->
-    <div class="task-bar">
-        <div class="container">
-            <p><strong>🎯 Your Task:</strong> {{ instruction_text }}</p>
-        </div>
-    </div>
+    
 
     <!-- Hero Banner Carousel -->
     <section class="hero-carousel">
@@ -539,7 +534,7 @@
 <div id="twOverlay" class="tw-popup-overlay">
     <div class="tw-popup">
         <button id="twClose" class="tw-popup-close" aria-label="Close">✕</button>
-        <img id="twImage" src="/assets/diagram.gif" alt="Spin the Wheel" onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/no-image-available.png') }}'">
+        <img id="twImage" src="/site_assets/spinning.gif" alt="Spin the Wheel" onerror="this.onerror=null;this.src='/assets/diagram.gif'">
     </div>
 </div>
 

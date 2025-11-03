@@ -43,11 +43,71 @@
         <nav class="main-nav">
             <div class="container">
                 <ul class="nav-menu">
-                    <li><a href="#">🏠 Home</a></li>
-                    <li><a href="#">🔥 Hot Deals</a></li>
-                    <li><a href="#">👕 Fashion</a></li>
-                    <li><a href="#">💻 Electronics</a></li>
-                    <li><a href="#">🏠 Home & Garden</a></li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">🏠 Home</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="deals">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">🔥 Hot Deals</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="fashion">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">👕 Fashion</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="electronics">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">💻 Electronics</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="home">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">🏠 Home & Garden</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="sports">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">⚽ Sports</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="toys">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">🎮 Toys & Games</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="books">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">📚 Books</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="arts">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">🎨 Arts & Crafts</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="automotive">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">🚗 Automotive</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="beauty">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 20px; font-size: 14px; font-family: inherit;">💄 Beauty</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -63,9 +123,7 @@
                 <button type="submit" class="btn btn-primary" style="margin: 0;">← Back to Results</button>
             </form>
         </div>
-        <div id="instruction-text" class="text-center" style="margin-bottom: 20px;">
-            <h4>🎯 Your Shopping Mission: {{ instruction_text }}</h4>
-        </div>
+        
     </div>
 
     <!-- Product Details -->
@@ -223,7 +281,7 @@
     <div id="twOverlay" class="tw-popup-overlay">
         <div class="tw-popup">
             <button id="twClose" class="tw-popup-close" aria-label="Close">✕</button>
-            <img id="twImage" src="/assets/diagram.gif" alt="Spin the Wheel" onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/no-image-available.png') }}'">
+            <img id="twImage" src="/site_assets/spinning.gif" alt="Spin the Wheel" onerror="this.onerror=null;this.src='/assets/diagram.gif'">
         </div>
     </div>
 

@@ -322,8 +322,14 @@ def done(session_id, asin, options):
 @app.route('/assets/<path:filename>')
 def serve_assets(filename):
     """Serve shared assets from env/webshop/assets for use in templates."""
-    assets_dir = os.path.join(BASE_DIR, 'assets')
+    assets_dir = os.path.normpath(os.path.join(BASE_DIR, '..', 'assets'))
     return send_from_directory(assets_dir, filename)
+
+@app.route('/site_assets/<path:filename>')
+def serve_site_assets(filename):
+    """Serve assets located under env/webshop/web_agent_site/assets."""
+    site_assets_dir = os.path.join(BASE_DIR, 'assets')
+    return send_from_directory(site_assets_dir, filename)
 
 
 def find_free_port(start_port=5000, max_attempts=100):
