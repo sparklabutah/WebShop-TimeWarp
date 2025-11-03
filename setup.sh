@@ -22,10 +22,10 @@ if [ -z "$data" ]; then
 fi
 
 # Install Python Dependencies
-pip install -r requirements.txt;
+# pip install -r requirements.txt;
 
 # Install Environment Dependencies via `conda`
-conda install -c pytorch faiss-cpu;
+# conda install -c pytorch faiss-cpu;
 conda install -c conda-forge openjdk=11;
 
 # Download dataset into `data` folder via `gdown` command

@@ -23,7 +23,19 @@ from web_agent_site.utils import (
     HUMAN_ATTR_PATH
 )
 
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+# Theme will be set by app.py
+_current_theme = 'classic'
+
+def set_theme(theme):
+    """Set the current theme for template loading."""
+    global _current_theme
+    _current_theme = theme
+
+def get_template_dir():
+    """Get the template directory for the current theme."""
+    return os.path.join(BASE_DIR, 'themes', _current_theme, 'templates')
+
+TEMPLATE_DIR = get_template_dir()
 
 SEARCH_RETURN_N = 50
 PRODUCT_WINDOW = 10
@@ -42,16 +54,18 @@ ACTION_TO_TEMPLATE = {
 }
 
 def map_action_to_html(action, **kwargs):
+    # Get current template directory (theme may have changed)
+    template_dir = get_template_dir()
     action_name, action_arg = parse_action(action)
     if action_name == 'start':
-        path = os.path.join(TEMPLATE_DIR, 'search_page.html')
+        path = os.path.join(template_dir, 'search_page.html')
         html = render_template_string(
             read_html_template(path=path),
             session_id=kwargs['session_id'],
             instruction_text=kwargs['instruction_text'],
         )
     elif action_name == 'search':
-        path = os.path.join(TEMPLATE_DIR, 'results_page.html')
+        path = os.path.join(template_dir, 'results_page.html')
         html = render_template_string(
             read_html_template(path=path),
             session_id=kwargs['session_id'],
@@ -62,7 +76,7 @@ def map_action_to_html(action, **kwargs):
             instruction_text=kwargs['instruction_text'],
         )
     elif action_name == 'click' and action_arg == END_BUTTON:
-        path = os.path.join(TEMPLATE_DIR, 'done_page.html')
+        path = os.path.join(template_dir, 'done_page.html')
         html = render_template_string(
             read_html_template(path),
             session_id=kwargs['session_id'],
@@ -79,7 +93,7 @@ def map_action_to_html(action, **kwargs):
             product_category=kwargs.get('product_category'),
         )
     elif action_name == 'click' and action_arg in ACTION_TO_TEMPLATE:
-        path = os.path.join(TEMPLATE_DIR, ACTION_TO_TEMPLATE[action_arg])
+        path = os.path.join(template_dir, ACTION_TO_TEMPLATE[action_arg])
         html = render_template_string(
             read_html_template(path),
             session_id=kwargs['session_id'],
@@ -91,7 +105,7 @@ def map_action_to_html(action, **kwargs):
             instruction_text=kwargs.get('instruction_text')
         )
     elif action_name == 'click':
-        path = os.path.join(TEMPLATE_DIR, 'item_page.html')
+        path = os.path.join(template_dir, 'item_page.html')
         html = render_template_string(
             read_html_template(path),
             session_id=kwargs['session_id'],

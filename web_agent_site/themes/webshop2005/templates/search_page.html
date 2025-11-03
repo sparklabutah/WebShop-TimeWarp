@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebShop</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <span style="color: #0066CC; font-weight: bold;">webshop.com</span>
+            <a href="#">Your Store</a>
+            <a href="#">See All Product Categories</a>
+            <a href="#">Your Account</a>
+            <a href="#">Cart</a>
+            <a href="#">Wish List</a>
+            <a href="#">Help</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-top">
+            <div class="container">
+                <div id="logo">
+                    <h1>WebShop</h1>
+                </div>
+                <div class="search-bar">
+                    <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: flex; width: 100%; margin: 0;">
+                        <input id="search_input" class="form-control" type="text" name="search_query" placeholder="Search WebShop" required style="flex: 1;"/>
+                        <select style="padding: 6px 4px; border: 1px solid #999999; border-left: none; border-right: none; font-size: 11px; font-family: Arial, sans-serif; background: white;">
+                            <option>All</option>
+                            <option>Electronics</option>
+                            <option>Fashion</option>
+                            <option>Home</option>
+                            <option>Sports</option>
+                            <option>Books</option>
+                        </select>
+                        <button type="submit" style="white-space: nowrap;">GO</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div style="background: #C8E6F5; background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 20px), repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 20px); padding: 5px 0; border-bottom: 1px solid #CCCCCC;">
+            <div class="container">
+                <span style="font-size: 12px; color: #000000;">Hello. Sign in to get personalized recommendations. <a href="#" style="color: #0066CC;">New customer? Start here.</a></span>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="nav-menu">
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Home</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="deals">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Gift Ideas</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="electronics">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Electronics</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="fashion">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Fashion</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="books">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Books</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="home">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Home & Garden</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
+                            <input type="hidden" name="search_query" value="sports">
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Sports & Outdoors</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container" style="padding: 15px;">
+        <div style="display: flex; gap: 15px;">
+            <!-- Left Sidebar - BROWSE -->
+            <div class="sidebar-browse">
+                <!-- Search Bar in Sidebar -->
+                <div class="sidebar-search">
+                    <form role="form" id="form-buscar" method="post" action="{{url_for('index', session_id=session_id)}}" style="display: flex; width: 100%; margin: 0;">
+                        <input id="search_input" class="form-control" type="text" name="search_query" placeholder="Search WebShop" required style="flex: 1;"/>
+                        <select style="padding: 6px 4px; border: 1px solid #999999; border-left: none; border-right: none; font-size: 11px; font-family: Arial, sans-serif; background: white;">
+                            <option>All</option>
+                            <option>Electronics</option>
+                            <option>Fashion</option>
+                            <option>Home</option>
+                            <option>Sports</option>
+                            <option>Books</option>
+                        </select>
+                        <button type="submit" style="white-space: nowrap;">GO</button>
+                    </form>
+                </div>
+                
+                <div class="browse-header">BROWSE</div>
+                <div class="sidebar-section">
+                    <h4>Featured Stores</h4>
+                    <ul>
+                        <li><a href="#">Apparel & Accessories</a></li>
+                        <li><a href="#">Beauty</a></li>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Shoes</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h4>New Stores (In Beta)</h4>
+                    <ul>
+                        <li><a href="#">Toys & Games</a></li>
+                        <li><a href="#">Automotive</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h4>Books, Music, DVD</h4>
+                    <ul>
+                        <li><a href="#">Books</a></li>
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">DVD & Video</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h4>Electronics & Office</h4>
+                    <ul>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Computers</a></li>
+                        <li><a href="#">Office Products</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h4>Kids & Baby</h4>
+                    <ul>
+                        <li><a href="#">Baby</a></li>
+                        <li><a href="#">Kids</a></li>
+                        <li><a href="#">Toys</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h4>Home & Garden</h4>
+                    <ul>
+                        <li><a href="#">Home Improvement</a></li>
+                        <li><a href="#">Kitchen</a></li>
+                        <li><a href="#">Garden</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h4>Sports & Fitness</h4>
+                    <ul>
+                        <li><a href="#">Sports & Outdoors</a></li>
+                        <li><a href="#">Fitness</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div style="flex: 1; padding: 0 10px;">
+
+                <!-- Red Promotional Block -->
+                <div class="promo-red-block">
+                    <h3>Special Holiday Offers</h3>
+                    <p>Shop now and save up to 65% on selected items. Free shipping on orders over $25. Limited time offer!</p>
+                </div>
+
+                <!-- Discount Badges - More distracting elements -->
+                <div style="margin: 15px 0; text-align: center;">
+                    <div style="margin-bottom: 10px;">
+                        <span class="discount-badge-large">78% OFF</span>
+                        <span class="discount-badge">Save Up to 65%</span>
+                        <span class="discount-badge-circle">15%<br>OFF</span>
+                    </div>
+                    <div>
+                        <span class="discount-badge">Everything on Sale</span>
+                        <span class="discount-badge">Free Shipping</span>
+                        <span class="discount-badge">Limited Time</span>
+                    </div>
+                </div>
+
+                <!-- Additional Promotional Block -->
+                <div class="promo-red-block" style="margin: 20px 0;">
+                    <h3 style="margin: 0 0 8px 0;">Weekend Special!</h3>
+                    <p style="margin: 0;">Shop now and get extra savings. Free shipping on orders over $25. Hurry, offer ends soon!</p>
+                </div>
+
+                <!-- Product Placeholder Images -->
+                <div style="display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap;">
+                    <div style="text-align: center; border: 1px solid #E0E0E0; padding: 10px; border-radius: 6px; flex: 1; min-width: 120px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Product" style="max-width: 80px; max-height: 80px; border-radius: 4px; margin-bottom: 5px;">
+                        <div style="font-size: 10px; color: #666666;">Featured Item</div>
+                        <span class="discount-badge" style="padding: 4px 8px; font-size: 10px; margin-top: 5px;">Save 50%</span>
+                    </div>
+                    <div style="text-align: center; border: 1px solid #E0E0E0; padding: 10px; border-radius: 6px; flex: 1; min-width: 120px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Product" style="max-width: 80px; max-height: 80px; border-radius: 4px; margin-bottom: 5px;">
+                        <div style="font-size: 10px; color: #666666;">Hot Deal</div>
+                        <span class="discount-badge" style="padding: 4px 8px; font-size: 10px; margin-top: 5px;">65% Off</span>
+                    </div>
+                    <div style="text-align: center; border: 1px solid #E0E0E0; padding: 10px; border-radius: 6px; flex: 1; min-width: 120px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Product" style="max-width: 80px; max-height: 80px; border-radius: 4px; margin-bottom: 5px;">
+                        <div style="font-size: 10px; color: #666666;">New Arrival</div>
+                        <span class="discount-badge" style="padding: 4px 8px; font-size: 10px; margin-top: 5px;">30% Off</span>
+                    </div>
+                </div>
+
+                <div style="background: #FFFFFF; border: 1px solid #E0E0E0; padding: 20px; margin-bottom: 20px;">
+                    <h3 style="margin: 0 0 15px 0; font-size: 18px; font-weight: bold; font-family: Arial, sans-serif;">Shop by Category</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                            <input type="hidden" name="search_query" value="electronics">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                <a href="#" onclick="this.closest('form').submit(); return false;" style="color: #0066CC; text-decoration: underline; font-size: 13px;">Electronics</a>
+                            </button>
+                        </form>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                            <input type="hidden" name="search_query" value="fashion">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                <a href="#" onclick="this.closest('form').submit(); return false;" style="color: #0066CC; text-decoration: underline; font-size: 13px;">Fashion & Apparel</a>
+                            </button>
+                        </form>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                            <input type="hidden" name="search_query" value="home">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                <a href="#" onclick="this.closest('form').submit(); return false;" style="color: #0066CC; text-decoration: underline; font-size: 13px;">Home & Garden</a>
+                            </button>
+                        </form>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                            <input type="hidden" name="search_query" value="books">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                <a href="#" onclick="this.closest('form').submit(); return false;" style="color: #0066CC; text-decoration: underline; font-size: 13px;">Books</a>
+                            </button>
+                        </form>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                            <input type="hidden" name="search_query" value="sports">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                <a href="#" onclick="this.closest('form').submit(); return false;" style="color: #0066CC; text-decoration: underline; font-size: 13px;">Sports & Outdoors</a>
+                            </button>
+                        </form>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                            <input type="hidden" name="search_query" value="beauty">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                <a href="#" onclick="this.closest('form').submit(); return false;" style="color: #0066CC; text-decoration: underline; font-size: 13px;">Beauty & Personal Care</a>
+                            </button>
+                        </form>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                            <input type="hidden" name="search_query" value="toys">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                <a href="#" onclick="this.closest('form').submit(); return false;" style="color: #0066CC; text-decoration: underline; font-size: 13px;">Toys & Games</a>
+                            </button>
+                        </form>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                            <input type="hidden" name="search_query" value="automotive">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; text-align: left; width: 100%;">
+                                <a href="#" onclick="this.closest('form').submit(); return false;" style="color: #0066CC; text-decoration: underline; font-size: 13px;">Automotive</a>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="arrow-link" style="margin: 15px 0;">
+                    <a href="#">More special offers...</a>
+                </div>
+
+                <!-- Additional Promotional Section -->
+                <div style="background: #FFFFFF; border: 1px solid #E0E0E0; padding: 15px; margin: 20px 0; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold; font-family: Arial, sans-serif;">Featured Deals</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        <div style="border: 1px solid #E0E0E0; padding: 8px; border-radius: 4px; text-align: center;">
+                            <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Deal" style="max-width: 60px; max-height: 60px; border-radius: 3px; margin-bottom: 5px;">
+                            <div style="font-size: 10px; color: #4A90E2; font-weight: bold;">40% Off</div>
+                        </div>
+                        <div style="border: 1px solid #E0E0E0; padding: 8px; border-radius: 4px; text-align: center;">
+                            <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Deal" style="max-width: 60px; max-height: 60px; border-radius: 3px; margin-bottom: 5px;">
+                            <div style="font-size: 10px; color: #8E44AD; font-weight: bold;">55% Off</div>
+                        </div>
+                        <div style="border: 1px solid #E0E0E0; padding: 8px; border-radius: 4px; text-align: center;">
+                            <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Deal" style="max-width: 60px; max-height: 60px; border-radius: 3px; margin-bottom: 5px;">
+                            <div style="font-size: 10px; color: #FF6B6B; font-weight: bold;">25% Off</div>
+                        </div>
+                        <div style="border: 1px solid #E0E0E0; padding: 8px; border-radius: 4px; text-align: center;">
+                            <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Deal" style="max-width: 60px; max-height: 60px; border-radius: 3px; margin-bottom: 5px;">
+                            <div style="font-size: 10px; color: #27AE60; font-weight: bold;">60% Off</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="right-sidebar">
+                <div class="right-sidebar-block">
+                    <h4>Today's Deals</h4>
+                    <div style="margin: 10px 0;">
+                        <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Deal" style="max-width: 100%; border-radius: 4px; margin-bottom: 8px;">
+                        <span class="discount-badge" style="padding: 6px 10px; font-size: 11px;">Save 45%</span>
+                    </div>
+                    <p style="font-size: 11px; margin: 5px 0;">Shop our featured products and save big on select items.</p>
+                    <a href="#">Shop Now</a>
+                </div>
+                
+                <div class="green-block">
+                    <h4>Holiday Shopping Meter</h4>
+                    <div class="large-number">46,242,823</div>
+                    <p style="font-size: 11px; margin: 5px 0;">Items purchased today</p>
+                    <a href="#" style="color: #0066CC; font-size: 11px;">Learn more</a>
+                </div>
+
+                <div class="right-sidebar-block">
+                    <h4>New Arrivals</h4>
+                    <div style="display: flex; gap: 8px; margin: 10px 0;">
+                        <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="New" style="max-width: 50px; max-height: 50px; border-radius: 4px;">
+                        <div style="flex: 1;">
+                            <div style="font-size: 10px; font-weight: bold;">New Product</div>
+                            <span class="discount-badge" style="padding: 3px 6px; font-size: 9px; margin-top: 5px;">Hot</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; margin: 5px 0;">Check out our latest products and hottest deals.</p>
+                    <a href="#">View All</a>
+                </div>
+
+                <div class="right-sidebar-block">
+                    <h4>Customer Favorites</h4>
+                    <div style="display: flex; gap: 8px; margin: 10px 0;">
+                        <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Favorite" style="max-width: 50px; max-height: 50px; border-radius: 4px;">
+                        <div style="flex: 1;">
+                            <div style="font-size: 10px; font-weight: bold;">Top Seller</div>
+                            <span class="discount-badge" style="padding: 3px 6px; font-size: 9px; margin-top: 5px;">Best</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; margin: 5px 0;">See what other shoppers are buying.</p>
+                    <a href="#">Browse Top Sellers</a>
+                </div>
+
+                <!-- Additional Promotional Block -->
+                <div class="right-sidebar-block" style="background: #E8F5E9; border: 2px solid #4CAF50;">
+                    <h4 style="color: #2E7D32;">Special Offer!</h4>
+                    <div style="text-align: center; margin: 10px 0;">
+                        <span class="discount-badge-circle" style="width: 80px; height: 80px; line-height: 1.1; padding: 15px 10px;">50%<br>OFF</span>
+                    </div>
+                    <p style="font-size: 11px; margin: 10px 0;">Limited time only. Shop now!</p>
+                    <a href="#" style="font-weight: bold;">Shop Now →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <!-- Footer Search Bar -->
+            <div class="footer-search">
+                <div class="search-bar">
+                    <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: flex; width: 100%;">
+                        <input type="text" name="search_query" placeholder="Search WebShop" style="flex: 1; padding: 6px 8px; border: 1px solid #999999; font-size: 12px;" />
+                        <button type="submit" style="padding: 6px 12px; background: #FF9900; color: #FFFFFF; border: 1px solid #CC6600; cursor: pointer; font-size: 12px;">GO</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <div class="footer-links-column">
+                    <h4>Get to Know Us</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press Releases</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-column">
+                    <h4>Make Money with Us</h4>
+                    <ul>
+                        <li><a href="#">Sell products on WebShop</a></li>
+                        <li><a href="#">Become an Affiliate</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-column">
+                    <h4>Let Us Help You</h4>
+                    <ul>
+                        <li><a href="#">Your Account</a></li>
+                        <li><a href="#">Returns Center</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom Links -->
+            <div class="footer-bottom-links">
+                <a href="#">United States</a><span class="separator">|</span>
+                <a href="#">United Kingdom</a><span class="separator">|</span>
+                <a href="#">Canada</a><span class="separator">|</span>
+                <a href="#">Germany</a><span class="separator">|</span>
+                <a href="#">Japan</a>
+                <br>
+                <a href="#">Conditions of Use</a><span class="separator">|</span>
+                <a href="#">Privacy Notice</a><span class="separator">|</span>
+                <a href="#">Interest-Based Ads</a>
+                <span style="float: right;"><a href="#">Top of Page</a></span>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright">© 2005 WebShop.com, Inc. or its affiliates</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Enable sidebar links to trigger searches via POST
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.querySelectorAll('.sidebar-browse ul li a');
+            var postUrl = "{{ url_for('index', session_id=session_id) }}";
+            links.forEach(function(link) {
+                link.addEventListener('click', function(ev) {
+                    ev.preventDefault();
+                    var queryText = (this.getAttribute('data-query') || this.textContent || '').trim();
+                    if (!queryText) return;
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = postUrl;
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'search_query';
+                    input.value = queryText;
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

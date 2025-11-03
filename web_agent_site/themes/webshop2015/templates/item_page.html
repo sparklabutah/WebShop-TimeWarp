@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{product_info.Title}} - WebShop.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    <!-- Header -->
+    <header class="amazon-header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-left">
+                    <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0;">
+                        <button type="submit" class="logo" style="background: none; border: none; padding: 0; cursor: pointer;">webshop.com</button>
+                    </form>
+                    <div class="delivery-option">
+                        <span class="delivery-label">Deliver to</span>
+                        <span class="delivery-location">Select your address</span>
+                    </div>
+                </div>
+                <div class="header-search">
+                    <form method="post" action="{{url_for('index', session_id=session_id)}}" class="search-form">
+                        <select class="search-category">
+                            <option>All</option>
+                            <option>Electronics</option>
+                            <option>Books</option>
+                        </select>
+                        <input type="text" name="search_query" class="search-input" placeholder="Search WebShop.com">
+                        <button type="submit" class="search-button">🔍</button>
+                    </form>
+                </div>
+                <div class="header-right">
+                    <div class="header-link">Returns & Orders</div>
+                    <div class="header-link">Cart</div>
+                </div>
+            </div>
+        </div>
+        <div class="header-nav">
+            <div class="container">
+                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline;">
+                    <button type="submit" class="nav-link-btn">All</button>
+                </form>
+                <form method="post" action="{{url_for('search_results', session_id=session_id, keywords=keywords, page=page)}}" style="display: inline;">
+                    <button type="submit" class="nav-link-btn">← Back to Results</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- Item Container -->
+    <div class="container item-container">
+        {% set fallback_image = url_for('static', filename='images/no-image-available.png') %}
+        <div class="item-image-section">
+            <img id="product-image" src="{{product_info.MainImage}}" alt="{{product_info.Title}}" class="item-image" onerror="this.src='{{ fallback_image }}'">
+        </div>
+        <div class="item-info-section">
+            <h1 class="item-title">{{product_info.Title}}</h1>
+            <div style="font-size: 14px; color: #007185; margin-bottom: 10px;">
+                ASIN: {{product_info.asin}}
+            </div>
+            <div class="item-price">{{product_info.Price}}</div>
+            <div class="item-rating">
+                Rating: {{product_info.Rating if product_info.Rating else 'N/A'}}
+            </div>
+
+            <!-- Product Options -->
+            {% if product_info.options %}
+            {% for option_name, option_contents in product_info.options.items() %}
+            <div class="item-options">
+                <div class="option-group">
+                    <label class="option-label">{{ option_name }}:</label>
+                    <div class="option-buttons">
+                        {% for option_content in option_contents %}
+                        {% set current_options = options.copy() %}
+                        {% set _ = current_options.update({option_name: option_content}) %}
+                        {% set url = url_for('item_page', session_id=session_id, asin=asin, keywords=keywords, page=page, options=current_options) %}
+                        <input type="radio" name="{{ option_name }}" id="opt_{{ option_name }}{{ loop.index0 }}" value="{{ option_content }}" data-url="{{ url }}" 
+                               {% if options.get(option_name) == option_content %}checked{% endif %}>
+                        <label for="opt_{{ option_name }}{{ loop.index0 }}" class="option-button {% if options.get(option_name) == option_content %}selected{% endif %}">
+                            {{ option_content }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <!-- Buy Button -->
+            <div style="margin-top: 30px;">
+                <form method="post" action="{{url_for('done', session_id=session_id, asin=asin, options=options)}}">
+                    <button type="submit" class="buy-button">Buy Now</button>
+                </form>
+                <div style="font-size: 12px; color: #666; margin-top: 10px;">
+                    100% Secure Checkout - Guaranteed
+                </div>
+            </div>
+
+            <!-- Product Information Tabs -->
+            <div style="margin-top: 30px; border-top: 1px solid #DDD; padding-top: 20px;">
+                <div style="font-size: 14px; font-weight: bold; margin-bottom: 15px;">Product Information:</div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Description', options=options) }}" style="display: inline;">
+                        <button type="submit" class="buy-button" style="background: #232F3E; color: white; max-width: 150px;">Description</button>
+                    </form>
+                    <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Features', options=options) }}" style="display: inline;">
+                        <button type="submit" class="buy-button" style="background: #232F3E; color: white; max-width: 150px;">Features</button>
+                    </form>
+                    <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Reviews', options=options) }}" style="display: inline;">
+                        <button type="submit" class="buy-button" style="background: #232F3E; color: white; max-width: 150px;">Reviews</button>
+                    </form>
+                    {% if show_attrs %}
+                    <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Attributes', options=options) }}" style="display: inline;">
+                        <button type="submit" class="buy-button" style="background: #232F3E; color: white; max-width: 150px;">Attributes</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="amazon-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Get to Know Us</h3>
+                    <ul>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Let Us Help You</h3>
+                    <ul>
+                        <li><a href="#">Your Account</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-logo">webshop.com</div>
+                <div class="footer-copyright">© 1996-2015, WebShop.com, Inc.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Handle option selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const radios = document.querySelectorAll('input[type="radio"]');
+            const options = JSON.parse('{{ options | tojson | safe }}');
+            
+            radios.forEach(function(radio) {
+                // Handle click
+                radio.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Update labels
+                        document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
+                        this.nextElementSibling.classList.add('selected');
+                        
+                        // Update image if available
+                        const optionToImage = JSON.parse('{{ product_info.option_to_image | tojson | safe }}');
+                        const imageUrl = optionToImage[this.value];
+                        if (imageUrl) {
+                            document.getElementById('product-image').src = imageUrl;
+                        }
+                        
+                        // Navigate to new URL
+                        window.location.href = this.dataset.url;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

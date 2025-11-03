@@ -46,3 +46,37 @@ def test_generate_mturk_code():
         output = generate_mturk_code(session_id)
         assert type(expected) is str
         assert output == expected
+
+def test_generate_order_code():
+    """Test that generate_order_code produces consistent codes based on product and options"""
+    
+    # Same product + same options should produce same code
+    asin1 = "B001"
+    options1a = {'color': 'red', 'size': 'large'}
+    options1b = {'size': 'large', 'color': 'red'}  # Different order
+    
+    code1a = generate_order_code(asin1, options1a)
+    code1b = generate_order_code(asin1, options1b)
+    assert code1a == code1b, "Same product with same options (different order) should produce same code"
+    
+    # Different products should produce different codes
+    asin2 = "B002"
+    options2 = {'color': 'red', 'size': 'large'}
+    code2 = generate_order_code(asin2, options2)
+    assert code1a != code2, "Different products should produce different codes"
+    
+    # Same product with different options should produce different codes
+    options3 = {'color': 'blue', 'size': 'large'}
+    code3 = generate_order_code(asin1, options3)
+    assert code1a != code3, "Same product with different options should produce different codes"
+    
+    # Same product with no options should produce consistent code
+    code4a = generate_order_code(asin1, {})
+    code4b = generate_order_code(asin1, {})
+    assert code4a == code4b, "Same product with no options should produce same code"
+    assert code4a != code1a, "Product with no options should differ from product with options"
+    
+    # Code should be uppercase string
+    assert isinstance(code1a, str)
+    assert code1a.isupper()
+    assert len(code1a) == 10
