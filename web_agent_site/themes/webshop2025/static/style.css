@@ -81,12 +81,18 @@ body {
     max-width: 600px;
     display: flex;
     min-width: 300px;
+    position: relative;
 }
 
 .search-bar form {
     display: flex;
     width: 100%;
-    align-items: stretch;
+    align-items: center;
+    position: relative;
+    border: 2px solid #667eea;            /* draw the single rounded border on the wrapper */
+    border-radius: 50px;                  /* avoids any seam at different zoom levels */
+    overflow: hidden;                     /* clip input edges inside */
+    background: #fff;
 }
 
 .search-bar form input,
@@ -99,9 +105,9 @@ body {
 .search-bar .form-control {
     flex: 1;
     padding: 12px 20px !important;
-    border: 2px solid #667eea !important;
+    border: none !important;                 /* wrapper draws the only border */
     border-right: none !important;
-    border-radius: 50px 0 0 50px !important;
+    border-radius: 0 !important;
     font-size: 14px !important;
     outline: none;
     transition: all 0.3s ease;
@@ -112,8 +118,8 @@ body {
 .search-bar input:focus,
 .search-bar #search_input:focus,
 .search-bar .form-control:focus {
-    border-color: #5568d3 !important;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
     outline: none !important;
 }
 
@@ -290,6 +296,39 @@ body {
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 184, 148, 0.4);
+}
+
+/* Product Tab Buttons */
+.product-tab-btn {
+    transition: all 0.3s ease;
+    border-radius: 8px !important;
+}
+
+.product-tab-btn.active {
+    background: #667eea !important;
+    color: white !important;
+    border-color: #667eea !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.product-tab-btn:hover:not(.active) {
+    background: #f0f4ff !important;
+    color: #667eea !important;
+}
+
+.product-tab-content {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .btn-lg {
@@ -660,19 +699,39 @@ pre {
 
 /* Fix Bootstrap conflicts */
 .search-bar .form-control {
-    border-radius: 50px 0 0 50px !important;
-    border-right: none !important;
-    height: auto !important;
+    border-radius: 50px !important;
+    border: none !important;              /* no per-input border, wrapper handles it */
+    height: 48px !important;
+    line-height: 48px !important;
+    padding-right: 56px !important;       /* space for icon button */
+    background: #fff !important;
 }
 
-.search-bar .btn-success {
-    border-left: none !important;
-    background: #667eea !important;
-    color: white !important;
-    border-color: #667eea !important;
-    border-radius: 0 50px 50px 0 !important;
-    height: auto !important;
-    line-height: 1.5 !important;
+/* Inline search icon button inside input */
+.search-icon-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    border: none;
+    background: #667eea;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2; /* ensure it sits above input */
+}
+.search-icon-btn:hover { background: #5568d3; }
+
+/* Remove focus ring/shadow showing behind the icon on the right edge */
+.search-bar input:focus,
+.search-bar .form-control:focus {
+    border-right-color: transparent !important;
+    box-shadow: none !important;
 }
 
 .search-bar .btn-success:hover {

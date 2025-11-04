@@ -50,11 +50,8 @@ body {
 }
 
 .header-top {
-    background: #C8E6F5;
-    background-image: 
-        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 20px),
-        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 20px);
-    padding: 10px 0;
+    background: linear-gradient(to bottom, #B8D6F5 0%, #D8E6F5 100%);
+    padding: 12px 0;
     border-bottom: 1px solid #CCCCCC;
 }
 
@@ -63,6 +60,40 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+    position: relative;
+}
+
+.header-utility-links {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.header-utility-links a {
+    color: #FFFFFF;
+    text-decoration: underline;
+    font-size: 11px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.header-utility-links .btn {
+    padding: 4px 8px;
+    font-size: 11px;
+    white-space: nowrap;
+    margin: 0 2px;
+}
+
+.view-deal-btn {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    border: 1px solid #CCCCCC !important;
+}
+
+.view-deal-btn:hover {
+    background: #F5F5F5 !important;
+    color: #000000 !important;
+    border: 1px solid #CCCCCC !important;
 }
 
 #logo {
@@ -71,8 +102,8 @@ body {
 }
 
 #logo h1 {
-    font-size: 24px;
-    font-weight: normal;
+    font-size: 28px;
+    font-weight: bold;
     margin: 0;
     color: #000000;
     font-family: Arial, Helvetica, sans-serif;
@@ -386,14 +417,22 @@ body {
 .nav-menu li button,
 .nav-menu li a {
     display: block;
-    padding: 12px 15px;
+    padding: 10px 12px;
     color: #FFFFFF;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
     font-family: Arial, sans-serif;
     border: none;
     background: none;
     cursor: pointer;
+    border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.nav-menu li:last-child button,
+.nav-menu li:last-child a {
+    border-right: none;
 }
 
 .nav-menu li button:hover,
@@ -425,10 +464,11 @@ body {
     color: #FFFFFF;
     padding: 6px 8px;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
     margin: 0 0 8px 0;
     font-family: Arial, sans-serif;
-    border-radius: 4px;
+    border-radius: 0;
 }
 
 .sidebar-browse ul {

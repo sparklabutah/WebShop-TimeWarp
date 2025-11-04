@@ -27,15 +27,9 @@
     <!-- Header -->
     <header class="main-header">
         <div class="header-top">
-            <div class="container">
+            <div class="container" style="display: flex; justify-content: center;">
                 <div id="logo">
                     <h1>WebShop</h1>
-                </div>
-                <div class="search-bar">
-                    <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: flex; width: 100%;">
-                        <input type="text" name="search_query" placeholder="Search WebShop" />
-                        <button type="submit" style="white-space: nowrap;">GO</button>
-                    </form>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MegaShop - Your Ultimate Shopping Destination</title>
+    <title>WebShop - Your Ultimate Shopping Destination</title>
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -184,6 +184,135 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
+        /* Main Layout with Sidebars */
+        .main-content-wrapper {
+            display: flex;
+            gap: 20px;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 100px;
+        }
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #5568d3;
+        }
+        .sidebar h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        .sidebar-product {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .sidebar-product:hover {
+            background: #f0f4ff;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        .sidebar-product img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 6px;
+            background: white;
+            flex-shrink: 0;
+        }
+        .sidebar-product-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .sidebar-product-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 5px 0;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .sidebar-product-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #667eea;
+            margin: 0;
+        }
+        .main-content-area {
+            flex: 1;
+            min-width: 0;
+            overflow-x: hidden;
+            width: 100%;
+        }
+        .main-content-area .container {
+            max-width: 100%;
+            padding: 0 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .main-content-area section {
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+        .hero-carousel .container {
+            max-width: 100%;
+            width: 100%;
+        }
+        
+        /* Featured Products Section */
+        .featured-product-card {
+            transition: all 0.3s ease;
+        }
+        .featured-product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        .featured-product-card:hover img {
+            transform: scale(1.05);
+        }
+        .featured-product-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
         @media (max-width: 768px) {
             .hero-carousel {
                 height: 350px;
@@ -206,6 +335,30 @@
                 flex-direction: column;
                 text-align: center;
             }
+            .featured-product-card {
+                min-width: 180px;
+            }
+            .sidebar {
+                display: none;
+            }
+            .main-content-wrapper {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .main-content-area {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+        @media (min-width: 1200px) and (max-width: 1600px) {
+            .sidebar {
+                width: 240px;
+            }
+        }
+        @media (min-width: 1200px) {
+            .sidebar {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -221,16 +374,13 @@
             <div class="container">
                 <div id="logo">
                     <a href="{{url_for('index', session_id=session_id)}}" style="text-decoration: none; color: inherit;">
-                        <h1>🛒 MegaShop</h1>
+                        <h1>🛒 WebShop</h1>
                         <span class="tagline">Your Ultimate Shopping Destination</span>
                     </a>
                 </div>
                 <div class="search-bar">
                     <form role="form" id="form-buscar" method="post" action="{{url_for('index', session_id=session_id)}}">
                         <input id="search_input" class="form-control" type="text" name="search_query" placeholder="Search for products, brands, and more..." required/>
-                        <button class="btn btn-success" type="submit">
-                            🔍 Search
-                        </button>
                     </form>
                 </div>
                 <div class="header-actions">
@@ -313,8 +463,36 @@
         </nav>
     </header>
 
-    
+    <!-- Main Content with Sidebars -->
+    <div class="main-content-wrapper">
+        <!-- Left Sidebar -->
+        <aside class="sidebar sidebar-left">
+            <h3>🔥 Hot Picks</h3>
+            {% set products_to_show = featured_items if featured_items else featured_products %}
+            {% if products_to_show %}
+                {% for product in products_to_show[:10] %}
+                {% if product %}
+                {% set product_image = product.MainImage if product.MainImage else (product.Image if product.Image else (product.image if product.image else '')) %}
+                {% set keywords_str = 'empty' %}
+                {% set item_page_url = url_for('item_page', session_id=session_id, asin=product.asin, keywords=keywords_str, page=1, options=dict()) %}
+                <a href="{{ item_page_url }}" class="sidebar-product">
+                    {% if product_image %}
+                    <img src="{{ product_image }}" alt="{{ product.Title }}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22%3E%3Crect fill=%22%23f0f0f0%22 width=%2260%22 height=%2260%22/%3E%3Ctext x=%2230%22 y=%2230%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2220%22%3E📦%3C/text%3E%3C/svg%3E'">
+                    {% else %}
+                    <div style="width: 60px; height: 60px; background: #f0f0f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📦</div>
+                    {% endif %}
+                    <div class="sidebar-product-info">
+                        <p class="sidebar-product-title">{{ product.Title[:50] }}{% if product.Title|length > 50 %}...{% endif %}</p>
+                        <p class="sidebar-product-price">{{ product.Price }}</p>
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+        </aside>
 
+        <!-- Main Content Area -->
+        <div class="main-content-area">
     <!-- Hero Banner Carousel -->
     <section class="hero-carousel">
         <div class="container">
@@ -327,7 +505,12 @@
                     </form>
                 </div>
                 <div class="hero-image">
-                    <div style="font-size: 200px; opacity: 0.9;">🤖</div>
+                    {% set hero_img = (featured_dress.MainImage if featured_dress else (featured_products[0].MainImage if featured_products else None)) %}
+                    {% if hero_img %}
+                    <img src="{{ hero_img }}" alt="Featured Summer Dress" style="max-width: 100%; max-height: 380px; object-fit: contain; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08);" onerror="this.style.display='none'">
+                    {% else %}
+                    <div style="font-size: 200px; opacity: 0.9;">👗</div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -430,6 +613,56 @@
         </div>
     </section>
 
+    <!-- Featured Products Section -->
+    {% if featured_items or featured_products %}
+    <section style="background: white; padding: 60px 0;">
+        <div class="container">
+            <h2 style="font-size: 32px; font-weight: 700; text-align: center; margin: 0 0 40px 0; color: #333;">Featured Products</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; margin-bottom: 40px;">
+                {% set products_to_show = featured_items if featured_items else featured_products %}
+                {% for product in products_to_show[:8] %}
+                {% if product %}
+                <div class="featured-product-card" style="background: white; border: 2px solid #f0f0f0; border-radius: 12px; overflow: hidden; transition: all 0.3s; cursor: pointer; position: relative;">
+                    {% if loop.index % 3 == 0 %}
+                    <span style="position: absolute; top: 10px; left: 10px; background: #00b894; color: white; padding: 5px 10px; border-radius: 15px; font-size: 11px; font-weight: 700; z-index: 10;">NEW</span>
+                    {% endif %}
+                    {% if loop.index % 5 == 0 %}
+                    <span style="position: absolute; top: 10px; right: 10px; background: #ff4757; color: white; padding: 5px 10px; border-radius: 15px; font-size: 11px; font-weight: 700; z-index: 10;">SALE</span>
+                    {% endif %}
+                    {% set product_image = product.MainImage if product.MainImage else (product.Image if product.Image else (product.image if product.image else '')) %}
+                    {% set keywords_str = 'empty' %}
+                    {% set item_page_url = url_for('item_page', session_id=session_id, asin=product.asin, keywords=keywords_str, page=1, options=dict()) %}
+                    <a href="{{ item_page_url }}" style="text-decoration: none; color: inherit; display: block;">
+                        <div style="background: #f9f9f9; padding: 20px; height: 220px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            {% if product_image %}
+                            <img src="{{ product_image }}" alt="{{ product.Title }}" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div style="display: none; font-size: 48px; opacity: 0.3;">📦</div>
+                            {% else %}
+                            <div style="font-size: 48px; opacity: 0.3;">📦</div>
+                            {% endif %}
+                        </div>
+                        <div style="padding: 15px;">
+                            <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 8px 0; color: #333; line-height: 1.4; height: 40px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                {{ product.Title[:80] }}{% if product.Title|length > 80 %}...{% endif %}
+                            </h3>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                                <span style="font-size: 20px; font-weight: 700; color: #667eea;">{{ product.Price }}</span>
+                                {% if product.Rating %}
+                                <span style="font-size: 12px; color: #888;">
+                                    <span style="color: #ffc107;">★</span> {{ product.Rating }}
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
     <!-- Features Section -->
     <section style="background: #f9f9f9; padding: 50px 0;">
         <div class="container">
@@ -465,6 +698,40 @@
             </div>
         </div>
     </section>
+        </div>
+        <!-- End Main Content Area -->
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar sidebar-right">
+            <h3>⚡ Trending Now</h3>
+            {% set products_to_show = featured_items if featured_items else featured_products %}
+            {% if products_to_show %}
+                {% set products_length = products_to_show|length %}
+                {% for i in range(products_length - 1, -1, -1) %}
+                {% if loop.index0 < 10 %}
+                {% set product = products_to_show[i] %}
+                {% if product %}
+                {% set product_image = product.MainImage if product.MainImage else (product.Image if product.Image else (product.image if product.image else '')) %}
+                {% set keywords_str = 'empty' %}
+                {% set item_page_url = url_for('item_page', session_id=session_id, asin=product.asin, keywords=keywords_str, page=1, options=dict()) %}
+                <a href="{{ item_page_url }}" class="sidebar-product">
+                    {% if product_image %}
+                    <img src="{{ product_image }}" alt="{{ product.Title }}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22%3E%3Crect fill=%22%23f0f0f0%22 width=%2260%22 height=%2260%22/%3E%3Ctext x=%2230%22 y=%2230%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2220%22%3E📦%3C/text%3E%3C/svg%3E'">
+                    {% else %}
+                    <div style="width: 60px; height: 60px; background: #f0f0f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📦</div>
+                    {% endif %}
+                    <div class="sidebar-product-info">
+                        <p class="sidebar-product-title">{{ product.Title[:50] }}{% if product.Title|length > 50 %}...{% endif %}</p>
+                        <p class="sidebar-product-price">{{ product.Price }}</p>
+                    </div>
+                </a>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+        </aside>
+    </div>
+    <!-- End Main Content Wrapper -->
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -509,7 +776,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="copyright">© 2024 MegaShop. All Rights Reserved. | Trusted by over 10 million customers worldwide</p>
+                <p class="copyright">© 2024 WebShop. All Rights Reserved. | Trusted by over 10 million customers worldwide</p>
             </div>
         </div>
     </footer>

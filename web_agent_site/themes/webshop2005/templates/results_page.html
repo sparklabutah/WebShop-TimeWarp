@@ -24,15 +24,9 @@
     <!-- Header -->
     <header class="main-header">
         <div class="header-top">
-            <div class="container">
+            <div class="container" style="display: flex; justify-content: center;">
                 <div id="logo">
                     <h1>WebShop</h1>
-                </div>
-                <div class="search-bar">
-                    <form method="post" action="{{ url_for('index', session_id=session_id) }}" style="display: flex; width: 100%;">
-                        <input type="text" name="search_query" placeholder="Search WebShop" value="{{ keywords|join(' ') if keywords else '' }}" required/>
-                        <button type="submit" style="white-space: nowrap;">GO</button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -104,14 +98,16 @@
                 <div>
                     {% set keywords_str = keywords|join('+') if keywords else '' %}
                     {% for item in products %}
+                    {% set item_page_url = url_for('item_page', session_id=session_id, asin=item.asin, keywords=keywords_str, page=page, options=dict() ) %}
                     <div class="list-group-item">
                         <div>
-                            <img src="{{item.MainImage}}" class="result-img" alt="{{item.Title}}">
+                            <a href="{{ item_page_url }}">
+                                <img src="{{item.MainImage}}" class="result-img" alt="{{item.Title}}">
+                            </a>
                         </div>
                         <div style="flex: 1;">
-                            {% set item_page_url = url_for('item_page', session_id=session_id, asin=item.asin, keywords=keywords_str, page=page, options=dict() ) %}
                             <h4 class="product-asin"><a class="product-link" href="{{ item_page_url }}">{{item.asin}}</a></h4>
-                            <h4 class="product-title">{{item.Title}}</h4>
+                            <h4 class="product-title"><a class="product-link" href="{{ item_page_url }}">{{item.Title}}</a></h4>
                             <div>
                                 <h5 class="product-price">{{item.Price}}</h5>
                             </div>

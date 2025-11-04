@@ -64,13 +64,6 @@
             <div class="search-box">
                 <div class="search-header">SEARCH</div>
                 <form method="post" action="{{url_for('index', session_id=session_id)}}">
-                    <select name="category" style="width: 100%; margin-bottom: 5px; padding: 2px 4px; font-size: 10px;">
-                        <option>All Products</option>
-                        <option>Electronics</option>
-                        <option>Books</option>
-                        <option>Music</option>
-                        <option>Video</option>
-                    </select>
                     <input type="text" name="search_query" style="width: 100%; padding: 2px 4px; font-size: 10px; margin-bottom: 5px;" placeholder="Search...">
                     <button type="submit" class="search-go-btn">GO!</button>
                 </form>
@@ -168,26 +161,51 @@
         <!-- Right Sidebar -->
         <div class="sidebar-right">
             <div class="sidebar-box">
-                <div class="box-title">WebShop.com Hot Products</div>
-                <div style="font-size: 9px; color: #666; margin-bottom: 8px;">Updated Hourly</div>
-                <ol style="padding-left: 18px; font-size: 10px;">
-                    <li><a href="#">Featured Item 1</a></li>
-                    <li><a href="#">Featured Item 2</a></li>
-                    <li><a href="#">Featured Item 3</a></li>
-                </ol>
-                <a href="#" style="font-size: 9px;">► More Hot Products</a>
+                <div class="box-title">Quick Clothing Picks</div>
+                <ul style="list-style: none; padding-left: 0; font-size: 10px;">
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline;">
+                            <input type="hidden" name="search_query" value="clothing shirts">
+                            <button type="submit" class="featured-link">Men's Shirts</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline;">
+                            <input type="hidden" name="search_query" value="clothing dresses">
+                            <button type="submit" class="featured-link">Women's Dresses</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline;">
+                            <input type="hidden" name="search_query" value="clothing shoes">
+                            <button type="submit" class="featured-link">Shoes</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
 
             <div class="sidebar-box">
-                <div class="box-title">Today in Music</div>
-                <p style="font-size: 10px; margin: 4px 0;">Free song <a href="#">downloads</a>.</p>
-                <div class="box-subtitle">Music Top Sellers</div>
-                <ol style="padding-left: 18px; font-size: 10px;">
-                    <li><a href="#">Top Album 1</a></li>
-                    <li><a href="#">Top Album 2</a></li>
-                    <li><a href="#">Top Album 3</a></li>
-                </ol>
-                <a href="#" style="font-size: 9px;">► More Music Top Sellers</a>
+                <div class="box-title">Quick Electronics Picks</div>
+                <ul style="list-style: none; padding-left: 0; font-size: 10px;">
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline;">
+                            <input type="hidden" name="search_query" value="laptop">
+                            <button type="submit" class="featured-link">Laptops</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline;">
+                            <input type="hidden" name="search_query" value="camera">
+                            <button type="submit" class="featured-link">Cameras</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline;">
+                            <input type="hidden" name="search_query" value="headphones">
+                            <button type="submit" class="featured-link">Headphones</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

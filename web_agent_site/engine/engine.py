@@ -38,6 +38,7 @@ def get_template_dir():
 TEMPLATE_DIR = get_template_dir()
 
 SEARCH_RETURN_N = 50
+# Default items per page; some themes may override via _current_theme
 PRODUCT_WINDOW = 10
 TOP_K_ATTR = 10
 
@@ -63,6 +64,13 @@ def map_action_to_html(action, **kwargs):
             read_html_template(path=path),
             session_id=kwargs['session_id'],
             instruction_text=kwargs['instruction_text'],
+            featured_products=kwargs.get('featured_products'),
+            featured_items=kwargs.get('featured_items'),
+            featured_dress_asin=kwargs.get('featured_dress_asin'),
+            featured_dress_title=kwargs.get('featured_dress_title'),
+            featured_dress_image=kwargs.get('featured_dress_image'),
+            electronics_image=kwargs.get('electronics_image'),
+            featured_sidebar_products=kwargs.get('featured_sidebar_products'),
         )
     elif action_name == 'search':
         path = os.path.join(template_dir, 'results_page.html')
@@ -74,6 +82,7 @@ def map_action_to_html(action, **kwargs):
             page=kwargs['page'],
             total=kwargs['total'],
             instruction_text=kwargs['instruction_text'],
+            featured_sidebar_products=kwargs.get('featured_sidebar_products'),
         )
     elif action_name == 'click' and action_arg == END_BUTTON:
         path = os.path.join(template_dir, 'done_page.html')
@@ -188,7 +197,24 @@ def get_top_n_product_from_keywords(
 
 
 def get_product_per_page(top_n_products, page):
-    return top_n_products[(page - 1) * PRODUCT_WINDOW:page * PRODUCT_WINDOW]
+    """Return products for the given page, with per-theme page size.
+
+    For the `webshop2025` theme, show 9 items per page to better fit the
+    modern grid. For the `webshop2015` theme, show 12 items per page (4 per row).
+    Other themes use the default PRODUCT_WINDOW.
+    """
+    try:
+        if _current_theme == 'webshop2025':
+            per_page = 9
+        elif _current_theme == 'webshop2015':
+            per_page = 12
+        else:
+            per_page = PRODUCT_WINDOW
+    except NameError:
+        per_page = PRODUCT_WINDOW
+    start = (page - 1) * per_page
+    end = page * per_page
+    return top_n_products[start:end]
 
 
 def generate_product_prices(all_products):

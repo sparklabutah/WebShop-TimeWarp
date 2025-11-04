@@ -29,8 +29,7 @@
                 </div>
                 <div class="search-bar">
                     <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: flex; width: 100%;">
-                        <input type="text" name="search_query" placeholder="Search for products, brands, and more..." />
-                        <button type="submit" style="white-space: nowrap;">🔍 Search</button>
+                        <input class="form-control" type="text" name="search_query" placeholder="Search for products, brands, and more..." />
                     </form>
                 </div>
                 <div class="header-actions">
@@ -113,18 +112,6 @@
         </nav>
     </header>
 
-    <!-- Breadcrumb Navigation -->
-    <div class="container" style="margin-top: 15px;">
-        <div style="background: white; padding: 12px 20px; border-radius: 8px; margin-bottom: 10px;">
-            <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline;">
-                <button type="submit" class="btn btn-success" style="margin: 0 5px 0 0;">← Back to Search</button>
-            </form>
-            <form method="post" action="{{url_for('search_results', session_id=session_id, keywords=keywords, page=page)}}" style="display: inline;">
-                <button type="submit" class="btn btn-primary" style="margin: 0;">← Back to Results</button>
-            </form>
-        </div>
-        
-    </div>
 
     <!-- Product Details -->
     <div class="container" style="margin-bottom: 40px;">
@@ -216,30 +203,123 @@
                                     <h3 style="color: #667eea; font-size: 18px; font-weight: 600; margin-bottom: 15px; border-bottom: 3px solid #667eea; padding-bottom: 10px;">
                                         <i class="glyphicon glyphicon-info-sign"></i> Product Details
                                     </h3>
-                                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-                                        <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Description', options=options) }}">
-                                            <button class="btn btn-primary" type="submit" style="width: 100%; margin: 0;">
-                                                <i class="glyphicon glyphicon-file"></i> Description
-                                            </button>
-                                        </form>
-                                        <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Features', options=options) }}">
-                                            <button class="btn btn-primary" type="submit" style="width: 100%; margin: 0;">
-                                                <i class="glyphicon glyphicon-list-alt"></i> Features
-                                            </button>
-                                        </form>
-                                        <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Reviews', options=options) }}">
-                                            <button class="btn btn-primary" type="submit" style="width: 100%; margin: 0;">
-                                                <i class="glyphicon glyphicon-comment"></i> Reviews
-                                            </button>
-                                        </form>
+                                    <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                                        <button class="btn btn-primary product-tab-btn active" data-tab="description" style="flex: 1; min-width: 120px; margin: 0;">
+                                            <i class="glyphicon glyphicon-file"></i> Description
+                                        </button>
+                                        <button class="btn btn-primary product-tab-btn" data-tab="features" style="flex: 1; min-width: 120px; margin: 0;">
+                                            <i class="glyphicon glyphicon-list-alt"></i> Features
+                                        </button>
+                                        <button class="btn btn-primary product-tab-btn" data-tab="reviews" style="flex: 1; min-width: 120px; margin: 0;">
+                                            <i class="glyphicon glyphicon-comment"></i> Reviews
+                                        </button>
                                         {% if show_attrs %}
-                                        <form method="post" action="{{ url_for('item_sub_page', session_id=session_id, asin=asin, keywords=keywords, page=page, sub_page='Attributes', options=options) }}">
-                                            <button class="btn btn-primary" type="submit" style="width: 100%; margin: 0;">
-                                                <i class="glyphicon glyphicon-tags"></i> Attributes
-                                            </button>
-                                        </form>
+                                        <button class="btn btn-primary product-tab-btn" data-tab="attributes" style="flex: 1; min-width: 120px; margin: 0;">
+                                            <i class="glyphicon glyphicon-tags"></i> Attributes
+                                        </button>
                                         {% endif %}
                                     </div>
+
+                                    <!-- Tab Content Sections -->
+                                    <div id="tab-description" class="product-tab-content active" style="display: block;">
+                                        <div class="card" style="padding: 25px; background: #f9f9f9; border-radius: 10px;">
+                                            <h4 style="color: #667eea; margin-bottom: 15px;">
+                                                <i class="glyphicon glyphicon-file"></i> Product Description
+                                            </h4>
+                                            <div class="product-info" style="line-height: 1.8; font-size: 16px; color: #555;">
+                                                {{product_info.Description}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="tab-features" class="product-tab-content" style="display: none;">
+                                        <div class="card" style="padding: 25px; background: #f9f9f9; border-radius: 10px;">
+                                            <h4 style="color: #667eea; margin-bottom: 15px;">
+                                                <i class="glyphicon glyphicon-list-alt"></i> Product Features
+                                            </h4>
+                                            <ul style="list-style: none; padding: 0;">
+                                                {% for bulletpoint in product_info.BulletPoints %}
+                                                <li style="padding: 12px 0; border-bottom: 1px solid #e0e0e0; line-height: 1.6;">
+                                                    <i class="glyphicon glyphicon-ok" style="color: #00b894; margin-right: 10px;"></i>
+                                                    <span class="product-info" style="font-size: 16px; color: #555;">{{bulletpoint}}</span>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div id="tab-reviews" class="product-tab-content" style="display: none;">
+                                        <div class="card" style="padding: 25px; background: #f9f9f9; border-radius: 10px;">
+                                            <h4 style="color: #667eea; margin-bottom: 15px;">
+                                                <i class="glyphicon glyphicon-comment"></i> Customer Reviews
+                                            </h4>
+                                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                                {% if product_info.Reviews %}
+                                                    {% for review in product_info.Reviews %}
+                                                    <div style="background: white; border-radius: 10px; padding: 20px; border-left: 4px solid #667eea;">
+                                                        <h5 style="color: #333; font-size: 18px; font-weight: 600; margin: 0 0 10px 0;">"{{review.title if review.title else 'Review'}}"</h5>
+                                                        <div style="margin: 10px 0;">
+                                                            <span style="font-weight: 600; color: #667eea; margin-right: 10px;">{{review.score}}/5</span>
+                                                            {% for i in range(review.score | int) %}
+                                                            <span class="fa fa-star" style="color: #ffc107;"></span>
+                                                            {% endfor %}
+                                                            {% for i in range(5 - (review.score | int)) %}
+                                                            <span class="fa fa-star" style="color: #e0e0e0;"></span>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <p style="color: #555; line-height: 1.6; margin: 10px 0 0 0;">{{review.body if review.body else 'No review text available.'}}</p>
+                                                    </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div style="text-align: center; padding: 40px; color: #888;">
+                                                        <i class="glyphicon glyphicon-comment" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
+                                                        <p style="font-size: 16px;">No reviews available for this product.</p>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% if show_attrs %}
+                                    <div id="tab-attributes" class="product-tab-content" style="display: none;">
+                                        <div class="card" style="padding: 25px; background: #f9f9f9; border-radius: 10px;">
+                                            <h4 style="color: #667eea; margin-bottom: 15px;">
+                                                <i class="glyphicon glyphicon-tags"></i> Product Attributes
+                                            </h4>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <ul style="list-style: none; padding: 0;">
+                                                        {% for attribute in product_info.Attributes %}
+                                                        <li style="padding: 10px 0; border-bottom: 1px solid #e0e0e0; line-height: 1.6;">
+                                                            <i class="glyphicon glyphicon-tag" style="color: #667eea; margin-right: 8px;"></i>
+                                                            <span style="font-size: 14px; color: #555;">{{attribute}}</span>
+                                                        </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div style="background: white; border-radius: 10px; padding: 20px;">
+                                                        <h5 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">
+                                                            <i class="glyphicon glyphicon-info-sign"></i> Product Info
+                                                        </h5>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <strong style="color: #333;">Category:</strong> 
+                                                            <span style="color: #555;">{{product_info.category}}</span>
+                                                        </div>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <strong style="color: #333;">Query:</strong> 
+                                                            <span style="color: #555;">{{product_info.query}}</span>
+                                                        </div>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <strong style="color: #333;">Product Category:</strong> 
+                                                            <span style="color: #555;">{{product_info.product_category}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                 </div>
 
                                 <!-- Trust Badges -->
@@ -325,6 +405,19 @@
             this.addEventListener("click", function() {
                 window.location.href = this.dataset.url;
             });
+        });
+
+        // Tab switching functionality
+        $('.product-tab-btn').on('click', function() {
+            var tabName = $(this).data('tab');
+            
+            // Remove active class from all buttons and content
+            $('.product-tab-btn').removeClass('active');
+            $('.product-tab-content').hide().removeClass('active');
+            
+            // Add active class to clicked button and show corresponding content
+            $(this).addClass('active');
+            $('#tab-' + tabName).show().addClass('active');
         });
     });
 </script>

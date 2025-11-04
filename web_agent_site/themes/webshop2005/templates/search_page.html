@@ -28,23 +28,15 @@
                 <div id="logo">
                     <h1>WebShop</h1>
                 </div>
-                <div class="search-bar">
-                    <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: flex; width: 100%; margin: 0;">
-                        <input id="search_input" class="form-control" type="text" name="search_query" placeholder="Search WebShop" required style="flex: 1;"/>
-                        <select style="padding: 6px 4px; border: 1px solid #999999; border-left: none; border-right: none; font-size: 11px; font-family: Arial, sans-serif; background: white;">
-                            <option>All</option>
-                            <option>Electronics</option>
-                            <option>Fashion</option>
-                            <option>Home</option>
-                            <option>Sports</option>
-                            <option>Books</option>
-                        </select>
-                        <button type="submit" style="white-space: nowrap;">GO</button>
-                    </form>
+                <div class="header-utility-links">
+                    <button class="btn" style="padding: 4px 8px; font-size: 11px;">VIEW CART</button>
+                    <button class="btn" style="padding: 4px 8px; font-size: 11px;">WISH LIST</button>
+                    <button class="btn" style="padding: 4px 8px; font-size: 11px;">YOUR ACCOUNT</button>
+                    <button class="btn" style="padding: 4px 8px; font-size: 11px;">HELP</button>
                 </div>
             </div>
         </div>
-        <div style="background: #C8E6F5; background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 20px), repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 20px); padding: 5px 0; border-bottom: 1px solid #CCCCCC;">
+        <div style="background: #FFF9E6; padding: 6px 0; border-bottom: 1px solid #CCCCCC;">
             <div class="container">
                 <span style="font-size: 12px; color: #000000;">Hello. Sign in to get personalized recommendations. <a href="#" style="color: #0066CC;">New customer? Start here.</a></span>
             </div>
@@ -54,43 +46,43 @@
                 <ul class="nav-menu">
                     <li>
                         <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
-                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Home</button>
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 10px 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; font-family: Arial, sans-serif; border-right: 1px solid rgba(255,255,255,0.2);">WELCOME</button>
                         </form>
                     </li>
                     <li>
                         <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
                             <input type="hidden" name="search_query" value="deals">
-                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Gift Ideas</button>
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 10px 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; font-family: Arial, sans-serif; border-right: 1px solid rgba(255,255,255,0.2);">TODAY'S DEALS</button>
                         </form>
                     </li>
                     <li>
                         <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
                             <input type="hidden" name="search_query" value="electronics">
-                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Electronics</button>
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 10px 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; font-family: Arial, sans-serif; border-right: 1px solid rgba(255,255,255,0.2);">ELECTRONICS</button>
                         </form>
                     </li>
                     <li>
                         <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
                             <input type="hidden" name="search_query" value="fashion">
-                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Fashion</button>
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 10px 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; font-family: Arial, sans-serif; border-right: 1px solid rgba(255,255,255,0.2);">APPAREL & ACCESSORIES</button>
                         </form>
                     </li>
                     <li>
                         <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
                             <input type="hidden" name="search_query" value="books">
-                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Books</button>
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 10px 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; font-family: Arial, sans-serif; border-right: 1px solid rgba(255,255,255,0.2);">BOOKS</button>
                         </form>
                     </li>
                     <li>
                         <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
                             <input type="hidden" name="search_query" value="home">
-                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Home & Garden</button>
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 10px 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; font-family: Arial, sans-serif; border-right: 1px solid rgba(255,255,255,0.2);">HOME & GARDEN</button>
                         </form>
                     </li>
                     <li>
                         <form method="post" action="{{url_for('index', session_id=session_id)}}" style="display: inline; margin: 0;">
                             <input type="hidden" name="search_query" value="sports">
-                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 12px 15px; font-size: 13px; font-family: Arial, sans-serif;">Sports & Outdoors</button>
+                            <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 10px 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; font-family: Arial, sans-serif;">SPORTS & OUTDOORS</button>
                         </form>
                     </li>
                 </ul>
@@ -106,16 +98,8 @@
                 <!-- Search Bar in Sidebar -->
                 <div class="sidebar-search">
                     <form role="form" id="form-buscar" method="post" action="{{url_for('index', session_id=session_id)}}" style="display: flex; width: 100%; margin: 0;">
-                        <input id="search_input" class="form-control" type="text" name="search_query" placeholder="Search WebShop" required style="flex: 1;"/>
-                        <select style="padding: 6px 4px; border: 1px solid #999999; border-left: none; border-right: none; font-size: 11px; font-family: Arial, sans-serif; background: white;">
-                            <option>All</option>
-                            <option>Electronics</option>
-                            <option>Fashion</option>
-                            <option>Home</option>
-                            <option>Sports</option>
-                            <option>Books</option>
-                        </select>
-                        <button type="submit" style="white-space: nowrap;">GO</button>
+                        <input id="search_input" class="form-control" type="text" name="search_query" placeholder="Search WebShop" required style="flex: 1; padding: 6px 8px; border: 1px solid #999999; border-radius: 3px 0 0 3px; font-size: 12px;"/>
+                        <button type="submit" style="white-space: nowrap; border-radius: 0 3px 3px 0;">GO</button>
                     </form>
                 </div>
                 
@@ -206,7 +190,25 @@
                     <p style="margin: 0;">Shop now and get extra savings. Free shipping on orders over $25. Hurry, offer ends soon!</p>
                 </div>
 
-                <!-- Product Placeholder Images -->
+                <!-- Featured Products -->
+                {% if featured_products and featured_products|length >= 3 %}
+                <div style="display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap;">
+                    {% for product in featured_products[:3] %}
+                    {% set keywords_str = (product.query.replace(' ', '+') if product.query else '') %}
+                    {% set item_url = url_for('item_page', session_id=session_id, asin=product.asin, keywords=keywords_str, page=1, options=dict()) %}
+                    <div style="text-align: center; border: 1px solid #E0E0E0; padding: 10px; border-radius: 6px; flex: 1; min-width: 120px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <a href="{{ item_url }}">
+                            <img src="{{ product.MainImage }}" alt="{{ product.Title }}" style="max-width: 80px; max-height: 80px; border-radius: 4px; margin-bottom: 5px;"
+                                 onerror="this.src='{{ url_for('static', filename='images/no-image-available.png') }}'">
+                        </a>
+                        <div style="font-size: 10px; color: #0066CC; margin: 6px 0; line-height: 1.2;">
+                            <a href="{{ item_url }}" style="color: #0066CC; text-decoration: underline;">{{ product.Title[:50] }}{% if product.Title|length > 50 %}...{% endif %}</a>
+                        </div>
+                        <div class="product-price" style="font-size: 12px; margin-bottom: 5px;">{{ product.Price }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
                 <div style="display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap;">
                     <div style="text-align: center; border: 1px solid #E0E0E0; padding: 10px; border-radius: 6px; flex: 1; min-width: 120px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                         <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Product" style="max-width: 80px; max-height: 80px; border-radius: 4px; margin-bottom: 5px;">
@@ -224,6 +226,7 @@
                         <span class="discount-badge" style="padding: 4px 8px; font-size: 10px; margin-top: 5px;">30% Off</span>
                     </div>
                 </div>
+                {% endif %}
 
                 <div style="background: #FFFFFF; border: 1px solid #E0E0E0; padding: 20px; margin-bottom: 20px;">
                     <h3 style="margin: 0 0 15px 0; font-size: 18px; font-weight: bold; font-family: Arial, sans-serif;">Shop by Category</h3>
@@ -286,6 +289,24 @@
                 <!-- Additional Promotional Section -->
                 <div style="background: #FFFFFF; border: 1px solid #E0E0E0; padding: 15px; margin: 20px 0; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                     <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold; font-family: Arial, sans-serif;">Featured Deals</h4>
+                    {% if featured_items and featured_items|length > 3 %}
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        {% for product in featured_items[4:8] %}
+                        {% set keywords_str = (product.query.replace(' ', '+') if product.query else '') %}
+                        {% set item_url = url_for('item_page', session_id=session_id, asin=product.asin, keywords=keywords_str, page=1, options=dict()) %}
+                        <div style="border: 1px solid #E0E0E0; padding: 8px; border-radius: 4px; text-align: center;">
+                            <a href="{{ item_url }}" style="display: block;">
+                                <img src="{{ product.MainImage }}" alt="{{ product.Title }}" style="width: 60px; height: 60px; border-radius: 3px; margin-bottom: 5px; object-fit: contain; display: block; margin: 0 auto 5px auto; background: #F8F8F8;"
+                                     onerror="this.src='{{ url_for('static', filename='images/no-image-available.png') }}'">
+                            </a>
+                            <div style="font-size: 9px; color: #0066CC; margin: 4px 0; line-height: 1.2;">
+                                <a href="{{ item_url }}" style="color: #0066CC; text-decoration: underline;">{{ product.Title[:30] }}{% if product.Title|length > 30 %}...{% endif %}</a>
+                            </div>
+                            <div class="product-price" style="font-size: 11px; margin-top: 2px;">{{ product.Price }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
                         <div style="border: 1px solid #E0E0E0; padding: 8px; border-radius: 4px; text-align: center;">
                             <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Deal" style="max-width: 60px; max-height: 60px; border-radius: 3px; margin-bottom: 5px;">
@@ -304,6 +325,7 @@
                             <div style="font-size: 10px; color: #27AE60; font-weight: bold;">60% Off</div>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -311,12 +333,27 @@
             <div class="right-sidebar">
                 <div class="right-sidebar-block">
                     <h4>Today's Deals</h4>
+                    {% if featured_products and featured_products[0] %}
+                    {% set fp = featured_products[0] %}
+                    {% set keywords_str = (fp.query.replace(' ', '+') if fp.query else '') %}
+                    {% set item_url = url_for('item_page', session_id=session_id, asin=fp.asin, keywords=keywords_str, page=1, options=dict()) %}
+                    <div style="margin: 10px 0; text-align: center;">
+                        <img src="{{ fp.MainImage }}" alt="{{ fp.Title }}" style="max-width: 100%; border-radius: 4px; margin-bottom: 8px;"
+                             onerror="this.src='{{ url_for('static', filename='images/no-image-available.png') }}'">
+                        <div class="product-title" style="margin: 6px 0;">
+                            <a class="product-link" href="{{ item_url }}">{{ fp.Title }}</a>
+                        </div>
+                        <div class="product-price" style="margin-bottom: 8px;">{{ fp.Price }}</div>
+                        <a href="{{ item_url }}" class="view-deal-btn" style="display: inline-block; text-decoration: none; background: #FFFFFF; color: #000000; border: 1px solid #CCCCCC; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-family: Arial, sans-serif;">View Deal</a>
+                    </div>
+                    {% else %}
                     <div style="margin: 10px 0;">
                         <img src="{{url_for('static', filename='images/no-image-available.png')}}" alt="Deal" style="max-width: 100%; border-radius: 4px; margin-bottom: 8px;">
                         <span class="discount-badge" style="padding: 6px 10px; font-size: 11px;">Save 45%</span>
                     </div>
                     <p style="font-size: 11px; margin: 5px 0;">Shop our featured products and save big on select items.</p>
                     <a href="#">Shop Now</a>
+                    {% endif %}
                 </div>
                 
                 <div class="green-block">

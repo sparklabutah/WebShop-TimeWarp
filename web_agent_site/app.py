@@ -150,10 +150,162 @@ def index(session_id):
             url=request.url,
             goal=user_sessions[session_id]['goal'],
         )))
+    # Prepare a featured women's clothing item for summer collection hero
+    featured_dress_asin = None
+    featured_dress_title = None
+    featured_dress_image = None
+    try:
+        # Try multiple search terms to find women's clothing - prioritize different types
+        search_terms_list = [
+            ['women', 'blouse'],
+            ['women', 'top'],
+            ['women', 'shirt'],
+            ['women', 'skirt'],
+            ['women', 'pants'],
+            ['summer', 'dress'],
+            ['women', 'dress'],
+            ['dress'],
+            ['women', 'fashion'],
+            ['summer', 'clothing'],
+            ['clothing', 'women'],
+        ]
+        # Try to get a different item each time by shuffling
+        random.shuffle(search_terms_list)
+        
+        # Collect all candidates first, then pick a random one
+        all_candidates = []
+        for search_terms in search_terms_list:
+            top_dress_asins = get_top_n_product_from_keywords(
+                search_terms,
+                search_engine,
+                all_products,
+                product_item_dict,
+                attribute_to_asins,
+            )
+            if not top_dress_asins:
+                continue
+            # Get multiple candidates and collect them
+            candidates = get_product_per_page(top_dress_asins, min(10, len(top_dress_asins))) or []
+            for p in candidates:
+                img = p.get('MainImage') or p.get('Image') or p.get('image')
+                if img and isinstance(img, str) and img.strip() and 'no-image' not in img.lower():
+                    all_candidates.append(p)
+        
+        # Pick a random candidate from all collected
+        if all_candidates:
+            random.shuffle(all_candidates)
+            selected = all_candidates[0]
+            featured_dress_asin = selected.get('asin')
+            featured_dress_title = selected.get('Title') or 'Featured Item'
+            featured_dress_image = selected.get('MainImage') or selected.get('Image') or selected.get('image')
+        
+        # If no image found, still try to use first product from any search
+        if not featured_dress_asin and search_engine is not None:
+            for search_terms in search_terms_list:
+                top_dress_asins = get_top_n_product_from_keywords(
+                    search_terms,
+                    search_engine,
+                    all_products,
+                    product_item_dict,
+                    attribute_to_asins,
+                )
+                if top_dress_asins:
+                    candidates = get_product_per_page(top_dress_asins, 1) or []
+                    if candidates:
+                        featured_dress_asin = candidates[0].get('asin')
+                        featured_dress_title = candidates[0].get('Title') or 'Featured Item'
+                        # Try to get image from product_item_dict
+                        if featured_dress_asin in product_item_dict:
+                            img = product_item_dict[featured_dress_asin].get('MainImage') or product_item_dict[featured_dress_asin].get('Image')
+                            if img and isinstance(img, str) and img.strip() and 'no-image' not in img.lower():
+                                featured_dress_image = img
+                        break
+        # Fallback image (local placeholder)
+        if not featured_dress_image:
+            featured_dress_image = url_for('static', filename='images/no-image-available.png')
+    except Exception as e:
+        print(f"Error fetching featured clothing item: {e}")
+        featured_dress_asin = None
+        featured_dress_title = None
+        featured_dress_image = url_for('static', filename='images/no-image-available.png')
+
+    # Prepare featured products with images for bottom section
+    featured_items = []
+    if all_products and len(all_products) > 0:
+        # Try to get products with images
+        candidates = random.sample(all_products, min(30, len(all_products)))
+        for prod in candidates:
+            img = prod.get('MainImage') or prod.get('Image') or prod.get('image')
+            if img and isinstance(img, str) and img.strip() and 'no-image' not in img.lower():
+                featured_items.append(prod)
+                if len(featured_items) >= 10:  # Get 10 featured items
+                    break
+        # If we don't have enough with images, fill with any products
+        if len(featured_items) < 10:
+            remaining = [p for p in all_products if p not in featured_items]
+            featured_items.extend(remaining[:10 - len(featured_items)])
+
+    # Get electronics product image for category background (cable, adapter, etc.)
+    electronics_image = None
+    try:
+        electronics_search_terms = [
+            ['cable'],
+            ['bluetooth', 'adapter'],
+            ['usb', 'cable'],
+            ['car', 'stereo'],
+            ['adapter'],
+            ['electronics'],
+        ]
+        for search_terms in electronics_search_terms:
+            electronics_products = get_top_n_product_from_keywords(
+                search_terms,
+                search_engine,
+                all_products,
+                product_item_dict,
+                attribute_to_asins,
+            )
+            if not electronics_products:
+                continue
+            candidates = get_product_per_page(electronics_products, 1) or []
+            for p in candidates:
+                img = p.get('MainImage') or p.get('Image') or p.get('image')
+                if img and isinstance(img, str) and img.strip() and 'no-image' not in img.lower():
+                    electronics_image = img
+                    break
+            if electronics_image:
+                break
+    except Exception as e:
+        print(f"Error fetching electronics image: {e}")
+        electronics_image = None
+
+    # Get featured products for right sidebar (homepage)
+    featured_sidebar_products = None
+    if all_products and len(all_products) > 0:
+        # Get random products with images for the sidebar
+        candidates = random.sample(all_products, min(10, len(all_products)))
+        featured_sidebar_products = []
+        for prod in candidates:
+            img = prod.get('MainImage') or prod.get('Image') or prod.get('image')
+            if img and isinstance(img, str) and img.strip() and 'no-image' not in img.lower():
+                featured_sidebar_products.append(prod)
+                if len(featured_sidebar_products) >= 4:  # Show 4 featured products
+                    break
+        # Fill with any products if we don't have enough with images
+        if len(featured_sidebar_products) < 4:
+            remaining = [p for p in all_products if p not in featured_sidebar_products]
+            featured_sidebar_products.extend(remaining[:4 - len(featured_sidebar_products)])
+
     return map_action_to_html(
         'start',
         session_id=session_id,
         instruction_text=instruction_text,
+        featured_products=featured_items[:4] if featured_items else None,
+        featured_items=featured_items[:10] if featured_items else None,  # Up to 10 items for bottom section
+        featured_dress_asin=featured_dress_asin,
+        featured_dress_title=featured_dress_title,
+        featured_dress_image=featured_dress_image,
+        electronics_image=electronics_image,
+        featured_sidebar_products=featured_sidebar_products[:4] if featured_sidebar_products else None,
     )
 
 
@@ -173,6 +325,24 @@ def search_results(session_id, keywords, page):
         attribute_to_asins,
     )
     products = get_product_per_page(top_n_products, page)
+    
+    # Get featured products for right sidebar (2015 template only)
+    featured_sidebar_products = None
+    if all_products and len(all_products) > 0:
+        # Get random products with images for the sidebar
+        candidates = random.sample(all_products, min(10, len(all_products)))
+        featured_sidebar_products = []
+        for prod in candidates:
+            img = prod.get('MainImage') or prod.get('Image') or prod.get('image')
+            if img and isinstance(img, str) and img.strip() and 'no-image' not in img.lower():
+                featured_sidebar_products.append(prod)
+                if len(featured_sidebar_products) >= 4:  # Show 4 featured products
+                    break
+        # Fill with any products if we don't have enough with images
+        if len(featured_sidebar_products) < 4:
+            remaining = [p for p in all_products if p not in featured_sidebar_products]
+            featured_sidebar_products.extend(remaining[:4 - len(featured_sidebar_products)])
+    
     html = map_action_to_html(
         'search',
         session_id=session_id,
@@ -181,6 +351,7 @@ def search_results(session_id, keywords, page):
         page=page,
         total=len(top_n_products),
         instruction_text=instruction_text,
+        featured_sidebar_products=featured_sidebar_products[:4] if featured_sidebar_products else None,
     )
     logger = logging.getLogger(session_id)
     logger.info(json.dumps(dict(

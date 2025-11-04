@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MegaShop - Your Ultimate Shopping Destination</title>
+    <title>WebShop - Your Ultimate Shopping Destination</title>
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -183,7 +183,7 @@
         <div class="header-top">
             <div class="container">
                 <div id="logo">
-                    <h1>MegaShop</h1>
+                    <h1>WebShop</h1>
                     <span class="tagline">Your Ultimate Shopping Destination</span>
                 </div>
                 <div class="search-bar">
@@ -291,7 +291,14 @@
                     </form>
                 </div>
                 <div class="hero-image">
-                    <div style="font-size: 200px; opacity: 0.9;">🤖</div>
+                    {% if featured_dress_asin %}
+                    {% set item_page_url = url_for('item_page', session_id=session_id, asin=featured_dress_asin, keywords=['dress'], page=1, options=dict()) %}
+                    <a href="{{ item_page_url }}" style="display:inline-block">
+                        <img src="{{ featured_dress_image }}" alt="{{ featured_dress_title or 'Summer Dress' }}" style="max-height: 400px; object-fit: contain;" onerror="this.src='{{ url_for('static', filename='images/no-image-available.png') }}'">
+                    </a>
+                    {% else %}
+                    <img src="{{ url_for('static', filename='images/no-image-available.png') }}" alt="Summer Dress">
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -305,46 +312,35 @@
         <span class="dot"></span>
     </div>
 
-    <!-- Shop by Category -->
-    <section class="category-section">
+    <!-- Featured Items Section -->
+    {% if featured_items %}
+    <section style="background: white; padding: 30px 0; border-top: 1px solid #E0E0E0; border-bottom: 1px solid #E0E0E0;">
         <div class="container">
-            <h2>Shop by Category</h2>
-            <div class="category-links">
-                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0; display: inline;">
-                    <input type="hidden" name="search_query" value="electronics">
-                    <button type="submit" class="category-link-btn">Electronics</button>
-                </form>
-                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0; display: inline;">
-                    <input type="hidden" name="search_query" value="fashion">
-                    <button type="submit" class="category-link-btn">Fashion</button>
-                </form>
-                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0; display: inline;">
-                    <input type="hidden" name="search_query" value="home">
-                    <button type="submit" class="category-link-btn">Home & Kitchen</button>
-                </form>
-                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0; display: inline;">
-                    <input type="hidden" name="search_query" value="beauty">
-                    <button type="submit" class="category-link-btn">Beauty</button>
-                </form>
-                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0; display: inline;">
-                    <input type="hidden" name="search_query" value="sports">
-                    <button type="submit" class="category-link-btn">Sports</button>
-                </form>
-                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0; display: inline;">
-                    <input type="hidden" name="search_query" value="books">
-                    <button type="submit" class="category-link-btn">Books</button>
-                </form>
-                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0; display: inline;">
-                    <input type="hidden" name="search_query" value="toys">
-                    <button type="submit" class="category-link-btn">Toys & Games</button>
-                </form>
-                <form method="post" action="{{url_for('index', session_id=session_id)}}" style="margin: 0; display: inline;">
-                    <input type="hidden" name="search_query" value="automotive">
-                    <button type="submit" class="category-link-btn">Automotive</button>
-                </form>
+            <h2 style="font-family: Georgia, serif; font-size: 18px; font-weight: bold; color: #000; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #E0E0E0;">Featured Items</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: flex-start;">
+                {% for item in featured_items[:10] %}
+                {% set item_page_url = url_for('item_page', session_id=session_id, asin=item.asin, keywords=['featured'], page=1, options=dict()) %}
+                <div style="background: white; border: 1px solid #E0E0E0; width: calc(20% - 12px); min-width: 180px; padding: 10px; text-align: center;">
+                    <a href="{{ item_page_url }}" style="text-decoration: none; color: inherit; display: block;">
+                        <div style="border: 1px solid #E0E0E0; margin-bottom: 8px; padding: 5px; background: white; min-height: 150px; display: flex; align-items: center; justify-content: center;">
+                            <img src="{{ item.MainImage or item.Image or url_for('static', filename='images/no-image-available.png') }}" 
+                                 alt="{{ item.Title }}" 
+                                 style="max-width: 100%; max-height: 150px; object-fit: contain;"
+                                 onerror="this.src='{{ url_for('static', filename='images/no-image-available.png') }}'">
+                        </div>
+                        <div style="font-size: 11px; color: #0066CC; text-decoration: underline; margin-bottom: 5px; min-height: 30px; overflow: hidden; text-align: left; line-height: 1.3;">
+                            {{ item.Title[:60] }}{% if item.Title|length > 60 %}...{% endif %}
+                        </div>
+                        <div style="font-size: 14px; font-weight: bold; color: #000; text-align: left;">
+                            {{ item.Price }}
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
+    {% endif %}
 
     <!-- Features Section -->
     <section style="background: #f9f9f9; padding: 50px 0;">
@@ -387,7 +383,7 @@
         <div class="container">
             <div class="footer-top">
                 <div class="footer-column">
-                    <h3>About MegaShop</h3>
+                    <h3>About WebShop</h3>
                     <p>Your trusted online shopping destination. We offer the best products at unbeatable prices with exceptional customer service.</p>
                     <div class="social-links">
                         <a href="#">📘 Facebook</a>
@@ -425,7 +421,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="copyright">© 2024 MegaShop. All Rights Reserved. | Trusted by over 10 million customers worldwide</p>
+                <p class="copyright">© 2024 WebShop. All Rights Reserved. | Trusted by over 10 million customers worldwide</p>
             </div>
         </div>
     </footer>

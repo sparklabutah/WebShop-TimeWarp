@@ -64,13 +64,6 @@
             <div class="search-box">
                 <div class="search-header">SEARCH</div>
                 <form method="post" action="{{url_for('index', session_id=session_id)}}">
-                    <select name="category" style="width: 100%; margin-bottom: 5px; padding: 2px 4px; font-size: 10px;">
-                        <option>All Products</option>
-                        <option>Electronics</option>
-                        <option>Books</option>
-                        <option>Music</option>
-                        <option>Video</option>
-                    </select>
                     <input type="text" name="search_query" style="width: 100%; padding: 2px 4px; font-size: 10px; margin-bottom: 5px;" placeholder="Search...">
                     <button type="submit" class="search-go-btn">GO!</button>
                 </form>
