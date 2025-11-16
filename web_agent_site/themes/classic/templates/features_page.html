@@ -27,7 +27,7 @@
               <div class="card card-body">
                 <ul>
                   {% for bulletpoint in product_info.BulletPoints %}
-                  <li><p class="product-info">{{ bulletpoint|striptags }}</p></li>
+                  <li><p class="product-info">{{ bulletpoint | safe }}</p></li>
                   {% endfor %}
                 </ul>
               </div>

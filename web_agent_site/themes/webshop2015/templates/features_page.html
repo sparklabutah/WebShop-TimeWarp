@@ -57,7 +57,7 @@
             <ul style="list-style: none; padding: 0;">
                 {% for bulletpoint in product_info.BulletPoints %}
                 <li style="padding: 12px 0; border-bottom: 1px solid #E0E0E0; font-size: 14px; line-height: 1.6;">
-                    • {{bulletpoint}}
+                    • {{bulletpoint | safe}}
                 </li>
                 {% endfor %}
             </ul>

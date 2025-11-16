@@ -126,7 +126,7 @@
                     <ul style="list-style: none; padding: 0;">
                         {% for bulletpoint in product_info.BulletPoints %}
                         <li style="padding: 12px 0; border-bottom: 1px solid #E0E0E0; font-size: 14px; line-height: 1.6;">
-                            • {{bulletpoint}}
+                            • {{bulletpoint | safe}}
                         </li>
                         {% endfor %}
                     </ul>
@@ -217,6 +217,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             const radios = document.querySelectorAll('input[type="radio"]');
             const options = JSON.parse('{{ options | tojson | safe }}');
+            const optionToImage = JSON.parse('{{ product_info.option_to_image | tojson | safe }}');
+            
+            // Initialize: Set image based on currently selected options on page load
+            radios.forEach(function(radio) {
+                if (radio.checked) {
+                    const imageUrl = optionToImage[radio.value];
+                    if (imageUrl) {
+                        document.getElementById('product-image').src = imageUrl;
+                    }
+                }
+            });
             
             radios.forEach(function(radio) {
                 // Handle click
@@ -227,7 +238,6 @@
                         this.nextElementSibling.classList.add('selected');
                         
                         // Update image if available
-                        const optionToImage = JSON.parse('{{ product_info.option_to_image | tojson | safe }}');
                         const imageUrl = optionToImage[this.value];
                         if (imageUrl) {
                             document.getElementById('product-image').src = imageUrl;
